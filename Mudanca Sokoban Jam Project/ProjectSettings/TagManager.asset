@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Wall
   - Box
+  - Package
   layers:
   - Default
   - TransparentFX
@@ -13,11 +14,11 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Wall
+  - Box
+  - Package
+  - Furniture
+  - Target
   - 
   - 
   - 

@@ -4,14 +4,13 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    GameObject[] packages;
     public int packCount;
-    public void Start()
-    {
-        packages = GameObject.FindGameObjectsWithTag("Package");
-    }
+    public LayerMask wallLayer, boxLayer, packageLayer, furnitureLayer;
     public bool Move(Vector2 direction)
     {
+        //Set the place where the player want to go
+        Vector2 newPos = new Vector2 (transform.position.x, transform.position.y) + direction/2;
+
         //Always set one of the coordinates to 0, avoiding diagonal movement
         if (Mathf.Abs(direction.x) < 0.5)
         {
@@ -22,12 +21,12 @@ public class Player : MonoBehaviour
             direction.y = 0;
         }
 
+
         //Check if can move
         if (CanMove(transform.position, direction))
         {
             transform.Translate(direction);
-            packageCollect();
-            Debug.Log(packCount);
+            packageCollect(newPos);
             return true;
         }
         else
@@ -39,50 +38,48 @@ public class Player : MonoBehaviour
     bool CanMove (Vector3 position, Vector2 direction)
     {
         //Set the place where the player want to go
-        Vector2 newPos = new Vector2 (position.x, position.y) + direction;
+        Vector2 newPos = new Vector2 (position.x, position.y) + direction/2;
 
-        //Check if collide with some wall
-        GameObject[] walls = GameObject.FindGameObjectsWithTag("Wall");
-        foreach (var wall in walls)
+        //Check if collide with the wall
+        if (Physics2D.OverlapCircle(newPos, .1f, wallLayer))
         {
-            if (wall.transform.position.x == newPos.x && wall.transform.position.y == newPos.y)
-            {
-                return false;
-            }
+            return false;
+        }
+
+        //Check if collide with some furniture
+        if (Physics2D.OverlapCircle(newPos, .1f, furnitureLayer))
+        {
+            return false;
         }
 
         //Check if collide with some box
-        GameObject[] boxes = GameObject.FindGameObjectsWithTag("Box");
-        foreach (var box in boxes)
+        Collider2D collideChecker;
+        if (collideChecker = Physics2D.OverlapCircle(newPos, .1f, boxLayer))
         {
-            //Check if can push this box
-            if (box.transform.position.x == newPos.x && box.transform.position.y == newPos.y)
+            Box box;
+            box = collideChecker.gameObject.GetComponent<Box>();
+            if (box.Move(direction))
             {
-                Box bx = box.GetComponent<Box>();
-                if (bx && bx.Move(direction))
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
         return true;
     }
 
-    public void packageCollect()
+    public void packageCollect(Vector2 newPos)
     {
-        foreach(var pack in packages)
+        Collider2D collideChecker;
+        if (collideChecker = Physics2D.OverlapCircle(newPos, .1f, packageLayer))
         {
-            if (pack.transform.position.x == this.transform.position.x &&
-                pack.transform.position.y == this.transform.position.y)
-            {
-                Debug.Log("Pacotão pegadão");
-                
-                Object.Destroy(pack);
-            }
+            GameObject pkge;
+            pkge = collideChecker.gameObject;
+            Debug.Log("+1 package");
+            packCount++;
+            Object.Destroy(pkge);
         }
     }
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Box : MonoBehaviour
 {
+    public LayerMask wallLayer, boxLayer, furnitureLayer, targetLayer;
     public bool Move(Vector2 direction)
     {
         //Check if the box can be pushed
@@ -21,26 +22,19 @@ public class Box : MonoBehaviour
     bool CanBePushed (Vector3 position, Vector2 direction)
     {
         //Set the place where the box is been pushed to
-        Vector2 newPos = new Vector2 (position.x, position.y) + direction;
+        Vector2 newPos = new Vector2 (transform.position.x, transform.position.y) + direction/1.9f;
 
-        //Check if collide with some wall
-        GameObject[] walls = GameObject.FindGameObjectsWithTag("Wall");
-        foreach (var wall in walls)
+        //Check if collide with a wall or another box
+        if (Physics2D.OverlapCircle(newPos, .1f, wallLayer))
         {
-            if (wall.transform.position.x == newPos.x && wall.transform.position.y == newPos.y)
-            {
-                return false;
-            }
+            Debug.Log("Blocked by a wall");
+            return false;
         }
 
-        //Check if collide with another box
-        GameObject[] boxes = GameObject.FindGameObjectsWithTag("Box");
-        foreach (var box in boxes)
+        if (Physics2D.OverlapCircle(newPos, .01f, boxLayer))
         {
-            if (box.transform.position.x == newPos.x && box.transform.position.y == newPos.y)
-            {
-                return false;
-            }
+            Debug.Log("Blocked by a box");
+            return false;
         }
         return true;
     }

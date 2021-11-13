@@ -6,6 +6,19 @@ public class GameManager : MonoBehaviour
 {
     private bool readyForInput; //Variable that allow move the player
     public Player player;
+    private string fase = "nomey";
+    public Dictionary<string, (int, int)> levelMoves = new Dictionary<string, (int, int)>
+    {
+        {"nomex", (8, 0) },
+        {"nomey", (10, 1) }
+    };
+
+    private void Start()
+    {
+        Debug.Log(levelMoves[fase]);
+        player.packCount = levelMoves[fase].Item2;
+
+    }
 
     void Update()
     {

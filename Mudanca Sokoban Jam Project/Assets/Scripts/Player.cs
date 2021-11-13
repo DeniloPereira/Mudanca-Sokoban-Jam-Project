@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    GameObject[] packages;
+    public int packCount;
+    public void Start()
+    {
+        packages = GameObject.FindGameObjectsWithTag("Package");
+    }
     public bool Move(Vector2 direction)
     {
         //Always set one of the coordinates to 0, avoiding diagonal movement
@@ -20,6 +26,8 @@ public class Player : MonoBehaviour
         if (CanMove(transform.position, direction))
         {
             transform.Translate(direction);
+            packageCollect();
+            Debug.Log(packCount);
             return true;
         }
         else
@@ -62,5 +70,19 @@ public class Player : MonoBehaviour
             }
         }
         return true;
+    }
+
+    public void packageCollect()
+    {
+        foreach(var pack in packages)
+        {
+            if (pack.transform.position.x == this.transform.position.x &&
+                pack.transform.position.y == this.transform.position.y)
+            {
+                Debug.Log("Pacotão pegadão");
+                
+                Object.Destroy(pack);
+            }
+        }
     }
 }

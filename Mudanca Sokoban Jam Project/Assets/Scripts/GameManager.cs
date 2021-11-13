@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    public Text packageTextCount, movesNumberText;
+    public GameObject gameOverScreen;
     private bool readyForInput; //Variable that allow move the player
     public Player player;
     private string fase = "nomey";
@@ -15,13 +18,19 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        gameOverScreen.SetActive(false);
         Debug.Log(levelMoves[fase]);
-        player.packCount = levelMoves[fase].Item2;
+        player.movesNumber = levelMoves[fase].Item1;
+        player.packageNumber = levelMoves[fase].Item2;
 
     }
 
     void Update()
     {
+        //Set the counters in the UI texts
+        packageTextCount.text = player.packageNumber.ToString();
+        movesNumberText.text = player.movesNumber.ToString();
+
         //Set the place where the player want to go
         Vector2 moveInput = new Vector2 (Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
@@ -40,6 +49,11 @@ public class GameManager : MonoBehaviour
         else
         {
             readyForInput = true;
+        }
+
+        if (player.movesNumber == 0)
+        {
+            gameOverScreen.SetActive(true);
         }
     }
 }

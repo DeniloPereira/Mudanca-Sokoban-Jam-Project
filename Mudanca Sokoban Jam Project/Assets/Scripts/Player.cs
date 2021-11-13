@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public int packCount;
+    public int packageNumber; //Number of packages
+    public int movesNumber; //Number of movements
     public LayerMask wallLayer, boxLayer, packageLayer, furnitureLayer;
     public bool Move(Vector2 direction)
     {
@@ -27,6 +28,7 @@ public class Player : MonoBehaviour
         {
             transform.Translate(direction);
             packageCollect(newPos);
+            movesNumber--;
             return true;
         }
         else
@@ -78,7 +80,7 @@ public class Player : MonoBehaviour
             GameObject pkge;
             pkge = collideChecker.gameObject;
             Debug.Log("+1 package");
-            packCount++;
+            packageNumber++;
             Object.Destroy(pkge);
         }
     }

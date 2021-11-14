@@ -22,7 +22,6 @@ public class GameManager : MonoBehaviour
         Debug.Log(levelMoves[fase]);
         player.movesNumber = levelMoves[fase].Item1;
         player.packageNumber = levelMoves[fase].Item2;
-
     }
 
     void Update()
@@ -37,8 +36,8 @@ public class GameManager : MonoBehaviour
         //Change the movement value to exactly 1, avoiding movement bugs
         moveInput.Normalize();
 
-        //Move the character if check some input
-        if(moveInput.sqrMagnitude > 0.5)
+        //Move the character if check some movement input
+        if (moveInput.sqrMagnitude > 0.5)
         {
             if (readyForInput)
             {
@@ -54,6 +53,12 @@ public class GameManager : MonoBehaviour
         if (player.movesNumber == 0)
         {
             gameOverScreen.SetActive(true);
+        }
+
+        //Check if the space is pressed
+        if (Input.GetKeyDown("space"))
+        {
+            player.BoxTheFurniture();
         }
     }
 }

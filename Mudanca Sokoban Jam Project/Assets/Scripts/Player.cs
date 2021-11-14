@@ -6,9 +6,22 @@ public class Player : MonoBehaviour
 {
     public int packageNumber; //Number of packages
     public int movesNumber; //Number of movements
+    private Animator playerAnimator;
     public LayerMask wallLayer, boxLayer, packageLayer, furnitureLayer;
+    private int directionPlayerIsLooking = 0; //0 = down; 1 = up; 2 = left; 3 = right.
+    public Vector2 lookingFor;
+
+    public void Start()
+    {
+        playerAnimator = gameObject.GetComponent<Animator>();
+    }
     public bool Move(Vector2 direction)
     {
+        lookingFor = direction;
+        if(!PlayerDirection(direction))
+        {
+            return false;
+        }
         //Set the place where the player want to go
         Vector2 newPos = new Vector2 (transform.position.x, transform.position.y) + direction/2;
 
@@ -21,7 +34,6 @@ public class Player : MonoBehaviour
         {
             direction.y = 0;
         }
-
 
         //Check if can move
         if (CanMove(transform.position, direction))
@@ -83,5 +95,100 @@ public class Player : MonoBehaviour
             packageNumber++;
             Object.Destroy(pkge);
         }
+    }
+
+    public void BoxTheFurniture()
+    {
+        Vector2 newPos = new Vector2 (transform.position.x, transform.position.y) + lookingFor/2;
+        Collider2D collideChecker;
+        if (collideChecker = Physics2D.OverlapCircle(newPos, .1f, boxLayer))
+        {
+            Box box;
+            box = collideChecker.gameObject.GetComponent<Box>();
+
+            box.changeTheSprite = true;
+            collideChecker.gameObject.layer = 9;
+            Debug.Log("Empacotou");
+            packageNumber++;
+            return;
+        }
+
+        if (collideChecker = Physics2D.OverlapCircle(newPos, .1f, furnitureLayer))
+        {
+            Box box;
+            box = collideChecker.gameObject.GetComponent<Box>();
+
+            if (packageNumber > 0 || box.isOnTarget == false)
+            {
+                box.changeTheSprite = true;
+                collideChecker.gameObject.layer = 7;
+                Debug.Log("Desempacotou");
+                packageNumber--;
+                return;
+            }
+            else
+            {
+                Debug.Log("Error");
+                return;
+            }
+        }
+    }
+
+    bool PlayerDirection(Vector2 input)
+    {
+        if (input.x == 1)
+        {
+            if (directionPlayerIsLooking == 3)
+            {
+                return true;
+            }
+            else
+            {
+                playerAnimator.SetTrigger("isLookingRight");
+                directionPlayerIsLooking = 3;
+                return false;
+            }
+        }
+        else if (input.x == -1)
+        {
+            if (directionPlayerIsLooking == 2)
+            {
+                return true;
+            }
+            else
+            {
+                playerAnimator.SetTrigger("isLookingLeft");
+                directionPlayerIsLooking = 2;
+                return false;
+            }
+        }
+
+        if (input.y == 1)
+        {
+            if (directionPlayerIsLooking == 1)
+            {
+                return true;
+            }
+            else
+            {
+                playerAnimator.SetTrigger("isLookingUp");
+                directionPlayerIsLooking = 1;
+                return false;
+            }
+        }
+        else if (input.y == -1)
+        {
+            if (directionPlayerIsLooking == 0)
+            {
+                return true;
+            }
+            else
+            {
+                playerAnimator.SetTrigger("isLookingDown");
+                directionPlayerIsLooking = 0;
+                return false;
+            }
+        }
+        return false;
     }
 }

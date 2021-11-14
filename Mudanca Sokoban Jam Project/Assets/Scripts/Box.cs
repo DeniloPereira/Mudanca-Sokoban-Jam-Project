@@ -4,7 +4,11 @@ using UnityEngine;
 
 public class Box : MonoBehaviour
 {
-    public LayerMask wallLayer, boxLayer, furnitureLayer, targetLayer;
+    private LayerMask wallLayer, boxLayer, furnitureLayer, targetLayer;
+    public bool isBoxed, changeTheSprite, isOnTarget;
+    [HideInInspector]
+    public SpriteRenderer spriteRenderer;
+    public Sprite furnitureSprite, boxSprite;
     public bool Move(Vector2 direction)
     {
         //Check if the box can be pushed
@@ -21,6 +25,18 @@ public class Box : MonoBehaviour
 
     bool CanBePushed (Vector3 position, Vector2 direction)
     {
+        //If isn't boxed, can't be pushed
+        if (!isBoxed)
+        {
+            return false;
+        }
+
+        if (isOnTarget)
+        {
+            Debug.Log("Box is already on the target");
+            return false;
+        }
+
         //Set the place where the box is been pushed to
         Vector2 newPos = new Vector2 (transform.position.x, transform.position.y) + direction/1.9f;
 
@@ -36,6 +52,42 @@ public class Box : MonoBehaviour
             Debug.Log("Blocked by a box");
             return false;
         }
+
+        if (Physics2D.OverlapCircle(newPos, .01f, targetLayer))
+        {
+            isOnTarget = true;
+            spriteRenderer.material.color = new Color (0.6f, 0.5f, 0.3f, 1);
+            Debug.Log("Color changed");
+            return true;
+        }
         return true;
+    }
+
+    void Start()
+    {
+        spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        wallLayer = LayerMask.GetMask("Wall");
+        boxLayer = LayerMask.GetMask("Box");
+        furnitureLayer = LayerMask.GetMask("Furniture");
+        targetLayer = LayerMask.GetMask("Target");
+    }
+
+    void Update()
+    {
+        if (changeTheSprite)
+        {
+            if (isBoxed)
+            {
+                spriteRenderer.sprite = furnitureSprite;
+                isBoxed = false;
+                changeTheSprite = false;
+            }
+            else
+            {
+                spriteRenderer.sprite = boxSprite;
+                isBoxed = true;
+                changeTheSprite = false;
+            }
+        }
     }
 }

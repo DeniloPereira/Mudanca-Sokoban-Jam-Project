@@ -6,19 +6,26 @@ public class Box : MonoBehaviour
 {
     private LayerMask wallLayer, boxLayer, furnitureLayer, targetLayer;
     public bool isBoxed, changeTheSprite, isOnTarget;
+    public GameManager gameManager;
     [HideInInspector]
     public SpriteRenderer spriteRenderer;
     public Sprite furnitureSprite, boxSprite;
+
+    public AudioSource src;
+    public AudioClip box_move, error;
+
     public bool Move(Vector2 direction)
     {
         //Check if the box can be pushed
         if (CanBePushed(transform.position, direction))
         {
             transform.Translate(direction);
+            src.PlayOneShot(box_move);
             return true;
         }
         else
         {
+            src.PlayOneShot(error);
             return false;
         }
     }
@@ -28,12 +35,14 @@ public class Box : MonoBehaviour
         //If isn't boxed, can't be pushed
         if (!isBoxed)
         {
+            src.PlayOneShot(error);
             return false;
         }
 
         if (isOnTarget)
         {
             Debug.Log("Box is already on the target");
+            src.PlayOneShot(error);
             return false;
         }
 
@@ -58,6 +67,8 @@ public class Box : MonoBehaviour
             isOnTarget = true;
             spriteRenderer.material.color = new Color (0.6f, 0.5f, 0.3f, 1);
             Debug.Log("Color changed");
+            gameManager.AddPoint();
+
             return true;
         }
         return true;
@@ -70,6 +81,7 @@ public class Box : MonoBehaviour
         boxLayer = LayerMask.GetMask("Box");
         furnitureLayer = LayerMask.GetMask("Furniture");
         targetLayer = LayerMask.GetMask("Target");
+        //gameManager = gameObject
     }
 
     void Update()

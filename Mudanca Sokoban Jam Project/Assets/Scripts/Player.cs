@@ -11,6 +11,9 @@ public class Player : MonoBehaviour
     private int directionPlayerIsLooking = 0; //0 = down; 1 = up; 2 = left; 3 = right.
     public Vector2 lookingFor;
 
+    public AudioSource src;
+    public AudioClip packing_box;
+
     public void Start()
     {
         playerAnimator = gameObject.GetComponent<Animator>();
@@ -108,6 +111,7 @@ public class Player : MonoBehaviour
 
             box.changeTheSprite = true;
             collideChecker.gameObject.layer = 9;
+            src.PlayOneShot(packing_box);
             Debug.Log("Empacotou");
             packageNumber++;
             return;
@@ -122,6 +126,7 @@ public class Player : MonoBehaviour
             {
                 box.changeTheSprite = true;
                 collideChecker.gameObject.layer = 7;
+                src.PlayOneShot(packing_box);
                 Debug.Log("Desempacotou");
                 packageNumber--;
                 return;

@@ -185,7 +185,7 @@ MonoBehaviour:
   isOnTarget: 0
   gameManager: {fileID: 0}
   spriteRenderer: {fileID: 0}
-  furnitureSprite: {fileID: 21300000, guid: 885a58c1fe3ea3e4dacca12cf79651a5, type: 3}
+  furnitureSprite: {fileID: 5183969279349489121, guid: 367239be299f1e3418aca17c65d46b28, type: 3}
   boxSprite: {fileID: 21300000, guid: 3bda4fb6863623646b89251315f61d28, type: 3}
   src: {fileID: 0}
   box_move: {fileID: 0}
@@ -1515,7 +1515,7 @@ MonoBehaviour:
   isOnTarget: 0
   gameManager: {fileID: 375374158}
   spriteRenderer: {fileID: 0}
-  furnitureSprite: {fileID: 21300000, guid: 885a58c1fe3ea3e4dacca12cf79651a5, type: 3}
+  furnitureSprite: {fileID: -5622132234996436363, guid: 367239be299f1e3418aca17c65d46b28, type: 3}
   boxSprite: {fileID: 21300000, guid: 3bda4fb6863623646b89251315f61d28, type: 3}
   src: {fileID: 186870017}
   box_move: {fileID: 8300000, guid: 6a6092aed23849545abfd4dfc51359fa, type: 3}
@@ -2209,7 +2209,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: 885a58c1fe3ea3e4dacca12cf79651a5, type: 3}
+  m_Sprite: {fileID: 8180223824006176760, guid: 367239be299f1e3418aca17c65d46b28, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -2277,7 +2277,7 @@ MonoBehaviour:
   isOnTarget: 0
   gameManager: {fileID: 375374158}
   spriteRenderer: {fileID: 0}
-  furnitureSprite: {fileID: 21300000, guid: 885a58c1fe3ea3e4dacca12cf79651a5, type: 3}
+  furnitureSprite: {fileID: 8180223824006176760, guid: 367239be299f1e3418aca17c65d46b28, type: 3}
   boxSprite: {fileID: 21300000, guid: 3bda4fb6863623646b89251315f61d28, type: 3}
   src: {fileID: 629891598}
   box_move: {fileID: 8300000, guid: 6a6092aed23849545abfd4dfc51359fa, type: 3}

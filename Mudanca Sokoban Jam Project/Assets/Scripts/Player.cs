@@ -41,9 +41,9 @@ public class Player : MonoBehaviour
         //Check if can move
         if (CanMove(transform.position, direction))
         {
+            movesNumber--;
             transform.Translate(direction);
             packageCollect(newPos);
-            movesNumber--;
             return true;
         }
         else
@@ -122,7 +122,7 @@ public class Player : MonoBehaviour
             Box box;
             box = collideChecker.gameObject.GetComponent<Box>();
 
-            if (packageNumber > 0 || box.isOnTarget == false)
+            if (packageNumber > 0 && box.isOnTarget == false)
             {
                 box.changeTheSprite = true;
                 collideChecker.gameObject.layer = 7;

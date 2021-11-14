@@ -33,12 +33,12 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (isGameOver == false)
-        {
-            //Set the counters in the UI texts
-            packageTextCount.text = player.packageNumber.ToString();
-            movesNumberText.text = player.movesNumber.ToString();
+        //Set the counters in the UI texts
+        packageTextCount.text = player.packageNumber.ToString();
+        movesNumberText.text = player.movesNumber.ToString();
 
+        if (!isGameOver)
+        {
             //Set the place where the player want to go
             Vector2 moveInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
@@ -65,20 +65,21 @@ public class GameManager : MonoBehaviour
             {
                 isGameOver = true;
                 gameOverScreen.SetActive(true);
+                Time.timeScale = 0;
             }
 
         }
         //Check if the space is pressed
         if (Input.GetKeyDown("space"))
         {
-            if (isGameOver == false)
-            {
-                player.BoxTheFurniture();
-            }
-            else
-            {
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-            }
+            player.BoxTheFurniture();
+        }
+
+        //Check if the "r" key is pressed to restart the scene
+        if (Input.GetKeyDown("r"))
+        {
+            Time.timeScale = 1;
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
     }
 

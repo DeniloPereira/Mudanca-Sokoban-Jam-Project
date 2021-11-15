@@ -5,7 +5,7 @@ using UnityEngine;
 public class Box : MonoBehaviour
 {
     private LayerMask wallLayer, boxLayer, furnitureLayer, targetLayer;
-    public bool isBoxed, changeTheSprite, isOnTarget;
+    public bool isBoxed, changeTheSprite;
     public GameManager gameManager;
     [HideInInspector]
     public SpriteRenderer spriteRenderer;
@@ -39,13 +39,6 @@ public class Box : MonoBehaviour
             return false;
         }
 
-        if (isOnTarget)
-        {
-            Debug.Log("Box is already on the target");
-            src.PlayOneShot(error);
-            return false;
-        }
-
         //Set the place where the box is been pushed to
         Vector2 newPos = new Vector2 (transform.position.x, transform.position.y) + direction/1.9f;
 
@@ -64,7 +57,6 @@ public class Box : MonoBehaviour
 
         if (Physics2D.OverlapCircle(newPos, .01f, targetLayer))
         {
-            isOnTarget = true;
             spriteRenderer.material.color = new Color (0.6f, 0.5f, 0.3f, 1);
             Debug.Log("Color changed");
             gameManager.AddPoint();

@@ -8,27 +8,33 @@ public class GameManager : MonoBehaviour
 {
     public Text packageTextCount, movesNumberText;
     public GameObject gameOverScreen;
+    public audioController audioController;
     private bool readyForInput; //Variable that allow move the player
     public Player player;
-    private string stage = "nomex";
+    private string stage;
     public bool isGameOver = false;
-    private int targetPoints, points = 0;
+    private int stageNumber, targetPoints, points = 0;
 
 
-    //<string Scene Name, (int Max Moves, int Initial Packs, int Max Points)
-    public Dictionary<string, (int, int, int)> levelMoves = new Dictionary<string, (int, int, int)>
+    //<string Scene Name, (int Stage Number, int Max Moves, int Initial Packs, int Max Points)
+    public Dictionary<string, (int, int, int, int)> levelMoves = new Dictionary<string, (int, int, int, int)>
     {
-        {"nomex", (8, 0, 1) },
-        {"nomey", (10, 1, 2) }
+        {"Stage1", (1, 3, 0, 1)},
+        {"Stage2", (2, 4, 0, 1)},
+        {"Stage3", (3, 11, 0, 1)},
+        {"Stage4", (4, 19, 1, 2)}
     };
 
     private void Start()
     {
+        stage = SceneManager.GetActiveScene().name;
+        audioController = GameObject.FindObjectOfType<audioController>();
         gameOverScreen.SetActive(false);
-        Debug.Log(levelMoves[stage]);
-        player.movesNumber = levelMoves[stage].Item1;
-        player.packageNumber = levelMoves[stage].Item2;
-        targetPoints = levelMoves[stage].Item3;
+        Debug.Log("Estágio atual é: "+stage);
+        stageNumber = levelMoves[stage].Item1;
+        player.movesNumber = levelMoves[stage].Item2;
+        player.packageNumber = levelMoves[stage].Item3;
+        targetPoints = levelMoves[stage].Item4;
     }
 
     void Update()
@@ -61,7 +67,7 @@ public class GameManager : MonoBehaviour
                
             }
 
-            if (player.movesNumber == 0)
+            if (player.movesNumber == 0 && points < targetPoints)
             {
                 isGameOver = true;
                 gameOverScreen.SetActive(true);
@@ -95,7 +101,7 @@ public class GameManager : MonoBehaviour
         else
         {
             Debug.Log("Passa de fase");
-            SceneManager.LoadScene("cenay");
+            SceneManager.LoadScene("Stage"+(stageNumber+1));
         }
     }
 }

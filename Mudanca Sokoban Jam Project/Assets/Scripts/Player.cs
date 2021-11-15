@@ -112,7 +112,7 @@ public class Player : MonoBehaviour
             box.changeTheSprite = true;
             collideChecker.gameObject.layer = 9;
             src.PlayOneShot(packing_box);
-            Debug.Log("Empacotou");
+            Debug.Log("Desempacotou");
             packageNumber++;
             return;
         }
@@ -127,7 +127,7 @@ public class Player : MonoBehaviour
                 box.changeTheSprite = true;
                 collideChecker.gameObject.layer = 7;
                 src.PlayOneShot(packing_box);
-                Debug.Log("Desempacotou");
+                Debug.Log("Empacotou");
                 packageNumber--;
                 return;
             }

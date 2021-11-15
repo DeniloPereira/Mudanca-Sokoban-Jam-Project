@@ -122,7 +122,7 @@ public class Player : MonoBehaviour
             Box box;
             box = collideChecker.gameObject.GetComponent<Box>();
 
-            if (packageNumber > 0 && box.isOnTarget == false)
+            if (packageNumber > 0)
             {
                 box.changeTheSprite = true;
                 collideChecker.gameObject.layer = 7;
